@@ -1,0 +1,156 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\title{Debate Analysis and Structured Argumentation:\\Toulmin Models, Impact Calculus, and Game-Theoretic Framing}
+\author{Abhi Wadhwa}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Notes on the mathematical and conceptual foundations of a debate flow analyzer. I cover the Toulmin model of argumentation, impact calculus scoring, win probability estimation, and an interesting (if somewhat loose) connection between debate structure and extensive-form games. Honestly, this project is more about structured NLP and scoring rubrics than deep mathematics, but there are some neat modeling choices that I think are worth writing up, especially the game-theoretic perspective on dropped arguments.
+\end{abstract}
+
+\section{The Toulmin Model of Argument}
+
+Before getting into any math, I need to set up the structure of what we're analyzing. In competitive debate, every argument is expected to have three components, following the Toulmin model:
+
+\begin{enumerate}
+    \item \textbf{Claim}: The central assertion (``Renewable energy creates jobs'').
+    \item \textbf{Warrant}: The reasoning or evidence supporting the claim (``Clean energy employs 5x more workers per megawatt'').
+    \item \textbf{Impact}: The significance or consequence (``2 million new jobs by 2035'').
+\end{enumerate}
+
+This is the atomic unit of analysis. The flow analyzer decomposes every speech into a list of such argument triples, each with a unique ID and metadata about which speech it appeared in, which side made it, and (crucially) whether it responds to a previous argument.
+
+The reason this structure matters mathematically is that it gives us a \textbf{directed graph} of argumentation. Each argument is a node, and rebuttal relationships form directed edges. An argument with no incoming edge from the opposing side is ``dropped'' --- meaning the other team never responded to it. This graph structure is the foundation for everything else.
+
+\section{Impact Calculus}
+
+Impact calculus is how debaters (and judges) evaluate which arguments matter more. Not all claims are created equal --- an argument about existential risk outweighs an argument about mild economic inconvenience, even if both are technically ``true.'' The analyzer scores arguments on four dimensions:
+
+\begin{center}
+\begin{tabular}{lll}
+    \textbf{Dimension} & \textbf{Scale} & \textbf{Weight} \\
+    Magnitude & 0--10 & $w_1 = 0.35$ \\
+    Timeframe & 0--10 & $w_2 = 0.15$ \\
+    Probability & 0--10 & $w_3 = 0.30$ \\
+    Reversibility & 0--10 & $w_4 = 0.20$
+\end{tabular}
+\end{center}
+
+The composite impact score for argument $a$ is a weighted average:
+\[
+    I(a) = w_1 \cdot M(a) + w_2 \cdot T(a) + w_3 \cdot P(a) + w_4 \cdot R(a)
+\]
+
+I chose these weights after playing with this for a while, trying to match how experienced judges actually weigh impacts. \textbf{Magnitude and probability dominate} because judges tend to prioritize ``how bad is it?'' and ``how likely is it?'' over ``how soon?'' and ``is it reversible?''. Timeframe gets the lowest weight because in most debates, both sides are discussing similar time horizons anyway. Reversibility at 0.20 reflects that permanent harms are treated more seriously, but it's not the primary consideration.
+
+Notice that these weights sum to 1:
+\[
+    0.35 + 0.15 + 0.30 + 0.20 = 1.00
+\]
+so $I(a) \in [0, 10]$ automatically. This is a minor convenience but it makes the scores directly interpretable on the same 0--10 scale.
+
+\section{Win Probability Estimation}
+
+This is where the scoring gets more interesting. I combine four signals to estimate each side's win probability:
+
+\subsection{Argument Coverage ($C$)}
+
+The proportion of independent arguments raised relative to the total arguments in the debate. If side $A$ raises $n_A$ arguments and both sides together raise $n_A + n_B$ arguments:
+\[
+    C_A = \frac{n_A}{n_A + n_B}
+\]
+This captures the intuition that the side making more arguments has more ``ground'' in the debate. It's a crude measure but it matters --- a side that only makes one argument, even a great one, is in trouble.
+
+\subsection{Rebuttal Coverage ($R$)}
+
+The fraction of the opponent's arguments that this side responded to. If side $A$ responded to $r_A$ of side $B$'s $n_B$ arguments:
+\[
+    R_A = \frac{r_A}{n_B}
+\]
+This measures engagement. A side that ignores most of their opponent's arguments is typically losing the debate, regardless of how strong their own case is.
+
+\subsection{Dropped Argument Penalty ($D$)}
+
+The proportion of this side's own arguments that went unanswered by the opponent. If side $B$ dropped $d_A$ of side $A$'s arguments:
+\[
+    D_A = \frac{d_A}{n_A}
+\]
+This is from side $A$'s perspective --- a high $D_A$ is \textit{good} for $A$ because it means the opponent failed to address their arguments. In debate, a dropped argument is often considered conceded.
+
+\subsection{Impact Calculus Comparison ($\mathcal{I}$)}
+
+The average composite impact score of side $A$'s arguments relative to both sides:
+\[
+    \mathcal{I}_A = \frac{\bar{I}_A}{\bar{I}_A + \bar{I}_B}
+\]
+where $\bar{I}_A = \frac{1}{n_A}\sum_{a \in A} I(a)$.
+
+\subsection{Combining the Signals}
+
+The overall win probability estimate for side $A$ is:
+\[
+    W_A = w_C \cdot C_A + w_R \cdot R_A + w_D \cdot D_A + w_\mathcal{I} \cdot \mathcal{I}_A
+\]
+with default weights $w_C = 0.25$, $w_R = 0.20$, $w_D = 0.25$, $w_\mathcal{I} = 0.30$. Again, these sum to 1. The win probability for side $B$ is computed analogously, and then both are normalized so they sum to 1:
+\[
+    P(A \text{ wins}) = \frac{W_A}{W_A + W_B}, \quad P(B \text{ wins}) = \frac{W_B}{W_A + W_B}
+\]
+
+\textbf{The key insight} in the weight choices is that impact calculus gets the highest weight (0.30) because in close debates, the quality of arguments matters more than quantity. Dropped argument penalty is tied with argument coverage at 0.25 because failing to respond to arguments is one of the most decisive factors in adjudication. Rebuttal coverage is lowest at 0.20 because partial engagement (responding to some but not all arguments) is common and doesn't necessarily indicate losing.
+
+\section{Debate as an Extensive-Form Game}
+
+Here's the part I find most intellectually interesting, even though it's more of a framing device than a precise model. A debate can be viewed as an \textbf{extensive-form game} where each speech is a move.
+
+In a policy debate (CX format), the game tree looks roughly like:
+
+\begin{enumerate}
+    \item 1AC (Affirmative Constructive): Aff presents their plan and advantages.
+    \item 1NC (Negative Constructive): Neg presents disadvantages and counterplans.
+    \item 2AC: Aff responds to Neg's arguments and extends their own.
+    \item 2NC: Neg extends and responds.
+    \item Rebuttals (1NR, 1AR, 2NR, 2AR): Final clash, no new arguments.
+\end{enumerate}
+
+Each speech represents a decision node where the debater chooses which arguments to extend, which to drop, and which new arguments to introduce. The \textbf{strategy space} at each node is the set of possible argument selections.
+
+The concept of a ``dropped argument'' maps naturally to the game-theoretic idea of an \textbf{unexploited information set}. When side $B$ drops argument $a$ from side $A$, they're essentially leaving $a$ unchallenged --- which in game-theoretic terms means they've failed to play a response at an information set where they had the opportunity to act. In most debate judging paradigms, a dropped argument is treated as conceded, which is analogous to a default payoff at an uncontested node.
+
+I don't push this analogy too far because debate isn't really a game of perfect information (debaters don't know exactly what the judge is thinking), and the payoff structure is determined by a human judge rather than a formal utility function. But the extensive-form framing is useful for understanding \textit{why} dropped arguments matter so much: they represent unexploited opportunities in the game tree, and the side that drops arguments is leaving potential value on the table.
+
+\section{Flow Sheets as Directed Graphs}
+
+One more structural observation. A flow sheet --- the standard note-taking format in competitive debate --- is really a \textbf{directed acyclic graph} (DAG). Arguments flow left to right across speech columns, with rebuttal arrows connecting responses to the arguments they address.
+
+Formally, let $G = (V, E)$ where $V$ is the set of all arguments across all speeches and $E$ contains directed edge $(a, b)$ if argument $b$ is a rebuttal to argument $a$. This graph has several nice properties:
+
+\begin{itemize}
+    \item It's acyclic (arguments can only respond to previously made arguments).
+    \item Roots (nodes with no incoming edge from the opposing side) that belong to side $X$ and have no outgoing edges to responses from side $Y$ are ``dropped by $Y$.''
+    \item The depth of the graph indicates how many rounds of clash occurred on a particular issue.
+\end{itemize}
+
+Finding dropped arguments reduces to finding nodes $v \in V$ belonging to side $X$ such that there is no edge $(v, w)$ where $w$ belongs to the opposing side and $w$ appears in a later speech. This is a simple graph traversal, which is computationally trivial but analytically powerful.
+
+\section{Limitations and Honest Assessment}
+
+I want to be upfront: the math here is not deep. The impact calculus weights are ultimately heuristic, the win probability model is a linear combination of proxy signals, and the game-theoretic framing is suggestive rather than rigorous. The real complexity is in the NLP --- extracting structured arguments from messy debate transcripts, correctly identifying rebuttal relationships, and scoring impacts in a way that matches human judgment.
+
+But I think the mathematical framing is still valuable because it makes the scoring transparent and configurable. Every weight can be adjusted, every threshold can be tuned, and the graph structure provides a clean abstraction for reasoning about debate dynamics. That's better than a black-box system, even if the underlying model is simple.
+
+\begin{thebibliography}{9}
+\bibitem{toulmin} Toulmin, S.E., \textit{The Uses of Argument}, Cambridge University Press, 1958.
+\bibitem{extensiveform} Osborne, M.J. and Rubinstein, A., \textit{A Course in Game Theory}, MIT Press, 1994.
+\bibitem{debate} Cirlin, A., ``Mastering Competitive Debate,'' 7th ed., National Textbook Company.
+\end{thebibliography}
+
+\end{document}
