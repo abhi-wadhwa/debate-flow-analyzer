@@ -1,0 +1,67 @@
+1AC: We propose that the United States federal government should substantially increase its investment in renewable energy infrastructure. Our plan mandates a $500 billion allocation over ten years for solar, wind, and grid modernization projects.
+
+Contention 1: Economic Growth. According to the Department of Energy's 2024 report, every dollar invested in clean energy infrastructure generates $1.80 in economic activity. The renewable energy sector already employs 3.4 million Americans, and our plan would create an additional 2 million jobs by 2035.
+
+Contention 2: Climate Change Mitigation. The IPCC Sixth Assessment Report confirms that limiting warming to 1.5 degrees Celsius requires a 45% reduction in emissions by 2030. Our plan achieves a 40% reduction in the energy sector, the single largest source of US emissions. Without action, climate damages will cost the US economy $2 trillion annually by 2100.
+
+Contention 3: Energy Independence. The US currently imports 6.4 million barrels of oil per day. Renewable energy eliminates dependence on volatile foreign energy markets, strengthening national security and stabilizing energy prices for consumers.
+
+1NC: The negative team opposes this plan on multiple grounds.
+
+Off-case 1: Spending Disadvantage. The federal government already faces a $34 trillion national debt. Adding $500 billion in spending triggers inflation and crowds out private investment. The Congressional Budget Office warns that debt-to-GDP ratios above 100% reduce long-term growth by 0.5% per year.
+
+Off-case 2: Federalism. Energy policy has traditionally been a state-level responsibility. Federal mandates undermine state sovereignty and create a one-size-fits-all approach that ignores regional differences in energy needs and resources.
+
+Contention 1 Response: The job creation numbers are inflated. The Bureau of Labor Statistics shows that renewable energy jobs pay 15% less than fossil fuel jobs on average. The plan destroys high-paying union jobs in coal and natural gas while creating lower-wage alternatives.
+
+Contention 2 Response: Even if the US reduces emissions, China and India account for 35% of global emissions and have made no binding commitments. Unilateral US action is insufficient and economically disadvantageous.
+
+2AC: We extend and defend our case.
+
+On the spending DA: Our plan is revenue-neutral through carbon tax implementation. The carbon tax generates $600 billion over ten years, fully funding the plan and reducing the deficit. Moreover, climate inaction costs far more -- $2 trillion annually by 2100 dwarfs the upfront investment.
+
+On federalism: Federal coordination is essential because the energy grid is interstate infrastructure. States cannot independently modernize a national grid. The Interstate Highway System provides precedent for successful federal infrastructure programs.
+
+On jobs: The Department of Labor confirms renewable energy jobs are growing 5x faster than overall employment. The plan includes $50 billion for transition assistance, retraining displaced fossil fuel workers for higher-skilled clean energy positions.
+
+On China: The US must lead by example. Historical data shows that US climate commitments catalyze international action -- the Paris Agreement was only possible after US-China bilateral negotiations in 2014.
+
+2NC: The negative extends our positions.
+
+Spending DA extension: A carbon tax is politically infeasible -- it has failed in Congress twelve times since 2009. The affirmative plan without the carbon tax creates massive deficits. Additionally, carbon taxes are regressive, disproportionately burdening low-income households who spend a larger share of income on energy.
+
+Federalism extension: The Interstate Highway analogy fails. Energy generation is fundamentally different from transportation infrastructure. States like Texas have successfully built renewable capacity without federal mandates, proving that state-level innovation is superior.
+
+New argument -- Grid Reliability: Intermittent renewable sources like solar and wind create grid instability. Germany's Energiewende led to rolling blackouts and a 50% increase in electricity prices. The US grid cannot handle rapid renewable integration without massive storage infrastructure that does not yet exist at scale.
+
+1NR: Voters, focus on two key issues.
+
+First, the spending disadvantage. The affirmative has no credible funding mechanism. The carbon tax is dead on arrival in Congress, and without it, this plan accelerates the debt crisis. Economic growth -- their own impact -- is undermined by the very spending they propose.
+
+Second, grid reliability. The affirmative has entirely dropped our Germany comparison. Real-world evidence shows that rapid renewable transitions cause blackouts and price spikes. Their plan risks the energy security of 330 million Americans.
+
+1AR: Two responses.
+
+On spending: The plan does not require a carbon tax. It can be funded through reallocation of existing fossil fuel subsidies, which total $52 billion annually. Eliminating these subsidies over ten years provides $520 billion -- more than enough. The negative's debt argument assumes no offsetting revenue, which is false.
+
+On grid reliability: Germany's situation is inapposite. The US has ten times the land area and vastly superior grid infrastructure. Battery storage costs have fallen 90% since 2010, and the plan allocates $100 billion specifically for grid modernization and storage. We do not drop Germany -- we distinguish it.
+
+2NR: The ballot comes down to risk analysis.
+
+The affirmative asks you to gamble $500 billion on an unproven transition. Even their own evidence shows only a 40% emissions reduction -- insufficient to meet IPCC targets. Meanwhile, the economic risks are immediate and concrete: inflation, job displacement, grid instability.
+
+The negative offers a path of state-led innovation that preserves economic stability while achieving gradual energy transition. Texas proves this model works -- it is the largest wind energy producer in the US without any federal mandate.
+
+Vote negative to protect economic stability, preserve federalism, and ensure grid reliability.
+
+2AR: The final affirmative rebuttal.
+
+The negative's entire case rests on the status quo being acceptable. It is not. Climate change is an existential threat with a closing window of action. The IPCC gives us until 2030 to make transformational changes.
+
+On economics: Our plan creates 2 million jobs and $900 billion in economic activity. The negative's inflation concerns are speculative; our job creation numbers are backed by DOE modeling.
+
+On federalism: State-led approaches have had 30 years and achieved only 22% renewable penetration. Federal action is necessary because states have failed to act at the required scale and speed.
+
+On grid reliability: We have $100 billion dedicated to storage and grid modernization. Battery technology is commercially proven. The negative's Germany analogy has been thoroughly distinguished.
+
+The affirmative plan addresses climate change, creates jobs, achieves energy independence, and modernizes our infrastructure. The cost of inaction vastly exceeds the cost of action. Vote affirmative.
